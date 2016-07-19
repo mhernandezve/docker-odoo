@@ -1,0 +1,24 @@
+version: '2'
+services:
+  db:
+    restart: always
+    image: postgres:9.5.3 
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+
+  odoo9:
+    restart: always
+    image: odoo:9.0
+    depends_on:
+      - db
+    links:
+      - db:db
+    ports:
+      - "8069:8069"
+    volumes:
+      - "./config:/etc/odoo"
+    command:
+     -- -c /etc/odoo/openerp-server.conf 
