@@ -8,6 +8,8 @@ services:
     environment:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
+    volumes:
+      - "./data:/var/lib/postgresql/data"
 
   odoo9:
     restart: always
