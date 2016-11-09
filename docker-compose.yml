@@ -3,15 +3,15 @@ services:
   db:
     restart: always
     image: postgres:9.5.3 
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
     volumes:
-      - "./data:/var/lib/postgresql/data"
+      - "./.pgdata:/var/lib/postgresql/data"
+    networks:
+      - odoo
 
-  odoo9:
+  odoo8:
     restart: always
     image: odoo:9.0
     depends_on:
@@ -22,5 +22,12 @@ services:
       - "8069:8069"
     volumes:
       - "./config:/etc/odoo"
+      - "./custom:/custom"
+      - "./.var/data/odoo:/var/lib/odoo"
+    networks:
+      - odoo
     command:
-     -- -c /etc/odoo/openerp-server.conf 
+      -- -c /etc/odoo/openerp-server.conf 
+       
+networks:
+  odoo:
